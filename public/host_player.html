@@ -1,0 +1,39 @@
+<div id="gs-video" class="text-center" style="width: 100vw;"></div>
+<div id="gs-crossword" class="text-center" style="margin-top: 1vh; font-weight: bold; color: white;"></div>
+<div id="gs-answers" class="text-center" style="margin-top: 1vh; display: none; width: 100%;"></div>
+<div class="gs-container">
+    <div class="gs-top" id="player_list"></div>
+
+    <div class="gs-question" id="question-box"></div>
+    <div class="gs-question" style="width: 90%; color: yellow;" id="answer-box"></div>
+    <!-- style="background:#777; text-decoration:line-through red" -->
+    <div id = "gs-field" style="display: none;">
+    </div>
+    <div class="gs-circles">
+        <div class="circle" id="qu-1" style="background: white;"></div>
+        <div class="circle" id="qu-2" style="background: white;"></div>
+        <div class="circle" id="qu-3" style="background: white;"></div>
+        <div class="circle" id="qu-4" style="background: white;"></div>
+        <div class="circle" id="qu-5" style="background: white;"></div>
+        <div class="circle" id="qu-6" style="background: white;"></div>
+        <div class="circle" id="qu-7" style="background: white;"></div>
+        <div class="circle" id="qu-8" style="background: white;"></div>
+        <div class="circle" id="qu-9" style="background: white;"></div>
+        <div class="circle" id="qu-10" style="background: white;"></div>
+    </div>
+    
+    <div class="gs-score">0</div>
+    <div class="gs-timer" id="showtime"></div>
+    <div id="gs-star"></div>
+    <div class="gs-mode">Khởi động</div>
+    <br>
+    <div id="combine_buttons">
+        <div id="buttons" style="display: flex; gap: 10px;">
+            <button id="blank" class="btn btn-secondary disabled" onclick="Skip()" style="display: flex;">Bỏ qua</button>
+            <button id="cross" class="btn btn-danger disabled" onclick="Wrong()" style="display: flex;">Sai</button>
+            <button id="tick" class="btn btn-success disabled" onclick="Correct()" style="display: flex;">Đúng</button>
+            <button id = "run_khoidong" class="btn btn-info" onclick="Start()" style="display: flex; margin-left: 10vw;">Bắt đầu</button>
+            <button id="change_md" class="btn btn-warning" onclick="ChangeModeThuThach()" style="display: flex;">Phần thi Thử Thách</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KVLH</title>
+    <link id="main-style" rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="icon" href="./image/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="./bootstrap/bootstrap_css.css">
+</head>
+<body>
+    <style id = "StyleGame">
+        body{
+            background-color: #466A2C;
+            background-repeat: no-repeat;
+            background-image: url(./image/bg.jpg);
+            background-size: 100%;
+        }
+    </style>
+    <div id="TheContainer">
+        <div class="modal" tabindex="-1" style="display: contents;">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body" id="body_1" style="display: none;">
+                        <p><b>Đã vào phòng! Vui lòng đợi host...</b></p>
+                        <p>Tên: <b id="show_player_name"></b></p>
+                        <p>Mã phòng: <b id="show_room_code"></b></p>
+                        <div class="spinner-container">
+                            <img src="./image/gemini.png" alt="spinner" class="spinner" />
+                        </div>
+                        <p>(Nếu muốn đổi tên thì hãy tải lại trang)</p>
+                    </div>
+                    <div class="modal-body" id="body_2">
+                        <p><b>Nhập tên của bạn</b></p>
+                        <input type="input" placeholder="Nhập tên" required maxlength="30" id="name_inp" name="inp" style="width: 100%; border-radius: 10px;">
+                        <br> <br>
+                        <p><b>Nhập mã phòng</b></p>
+                        <input type="input" placeholder="Nhập mã phòng" required maxlength="6" id="code_inp" name="code" style="width: 100%; border-radius: 10px;">
+                        
+                    </div>
+                    <div class="modal-footer" id = "sub_join">
+                        <button type="button" class="btn btn-success" style="width: 100%;" onclick="JoinTeam()">Tham gia!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./script.js" id="scriptjs"></script>
+    <script src="./bootstrap/bootstrap_js.js"></script>
+</body>
+</html>

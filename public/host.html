@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Host KVLH</title>
+  <link id="main-style" rel="stylesheet" type="text/css" href="./host_style.css">
+  <link rel="icon" href="./image/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="./bootstrap/bootstrap_css.css">
+</head>
+<body>
+  <style id = "StyleGame">
+    body{
+      background-repeat: no-repeat;
+      background-image: url(./image/host_bg.jpg);
+      background-size: 100%;
+      background-color:#C5F0F9; 
+      font-size: 1.8vw;
+    }
+  </style>
+  
+  <div id="TheContainer">
+    <div class="sidebar" id="sidebar">
+      <button id="toggleBtn" style="margin-top: 20px;" class="btn btn-warning">☰</button>
+      <!-- <a href="#home" class="alist" style="margin-top: 20px;">Bot tổng</a> -->
+      <!-- <button type="button" class="btn btn-primary alist" style="margin-top: 20px;" id="up_file" name = "up_file">Chọn thư mục đề</button>
+      <button type="button" class="btn btn-success alist" id="game_start" name="starter" onclick="GameStart()">Bắt đầu trò chơi</button> -->
+      <a style="margin-top: 20px;" id="game_start" name="starter" onclick="GameStart()" class="alist_first">Bắt đầu trò chơi</a>
+      <a id="up_file" class="alist">Chọn thư mục đề</a>
+      <a id="get_file" class="alist"
+      href="https://drive.google.com/file/d/1bg2NnMYiMPmLjSSqYV7qE4k5X-jRHzh9/view?usp=sharing" target="_blank">Lấy mẫu đề</a>
+      <a id="game_setting" class="alist" data-bs-toggle="modal" data-bs-target="#exampleModal">Cài đặt</a>
+    </div>
+    
+    <button type="button" class="btn btn-warning" style="margin-top: 20px; margin-bottom: 20px;" id="toggleBtn2">☰</button>
+      <!-- <button type="button" class="btn btn-warning" id="toggleBtn3">.</button> -->
+    <!-- <p style="text-align:center; color: teal;">Tải mẫu đề ở đây</p> -->
+    <h1 style="text-align:center; color: red;" id="show_code"></h1>
+    <br>
+    <h3 style="text-align:center">Danh sách player</h3>
+    <br>
+    <div class="row text-center">
+      <div class="col-1"></div>
+      <div class="col-9 line_board"><strong>Tên</strong></div>
+      <div class="col-1 line_board"></div>
+    </div>
+    <div id = "player_list"></div>
+    <input type="file" id="folderInput" webkitdirectory multiple hidden>
+  </div>
+  <!-- Button trigger modal -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Cài đặt</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" style="font-size: 18px;">
+          <b>- Bật nhạc nền phía người chơi </b><input type="checkbox" id="play_soundtrack_input" class="custom_checkbox">
+          <br><br>
+          <b>- Bật file video, âm thanh phía người chơi </b><input type="checkbox" id="show_video_input" class="custom_checkbox">
+          <br><br>
+          <b>- Sử dụng nhạc nền của Olympia </b><input type="checkbox" id="olympia_soundtrack_input" class="custom_checkbox">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+          <button type="button" class="btn btn-primary" id="submit_game_setting" data-bs-dismiss="modal">Lưu thay đổi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="./bootstrap/bootstrap_js.js"></script>
+  <script src="./host_script.js" id="scriptjs"></script>
+</body>
+</html>

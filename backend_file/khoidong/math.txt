@@ -1,0 +1,5 @@
+Một đường tròn có bao nhiêu trục đối xứng? * Vô số
+Đường tròn đơn vị là đường tròn có bán kính bằng bao nhiêu? * 1
+Khoảng biến thiên của mẫu số liệu 3, 4, 7, 19, 20 bằng bao nhiêu * 17
+Trong mẫu số liệu, nếu số liệu càng phân tán thì độ lệch chuẩn càng ... * lớn
+Một tam giác bất kì có bao nhiêu đường tròn bàng tiếp? * 3

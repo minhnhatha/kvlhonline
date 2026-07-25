@@ -1,0 +1,6 @@
+Đường tròn Euler (hay còn được gọi là đường tròn chín điểm) đi qua ba trung điểm mỗi cạnh tam giác và sáu điểm nào nữa? * Ba chân đường cao kẻ từ mỗi đỉnh, Ba trung điểm của ba đoạn thẳng nối từ ba đỉnh tới trực tâm
+Có bao nhiêu số tự nhiên có 3 chữ số đôi một khác nhau mà chữ số hàng trăm nhỏ hơn 1 đơn vị so với chữ số hàng chục? * 64
+Một vật bị ném thẳng đứng lên, bỏ qua ma sát. Khi vật ở độ cao 7m so với mặt đất thì thế năng trọng trường so với mặt đất bằng 1/3 động năng. Độ cao cực đại của vật so với mặt đất là bao nhiêu? * 28m
+Số giây đã trôi qua kể từ nửa đêm (tức 0 giờ 0 phút 0 giây) ngày 1 tháng 1 năm 1970 (theo giờ UTC), không bao gồm giây nhuận được gọi là gì? * Thời gian UNIX
+Bạn hãy trả lời câu hỏi Hóa học trong clip. * Dung dịch là Cu(NO3)2. Chất rắn là Ag. Phản ứng trên chứng tỏ Cu hoạt động hóa học mạnh hơn Ag & /out_media/02.mp4
+Một người cách ga tàu 12 km, 27 phút nữa thì tàu chạy. 1/4 đoạn đường đầu người đó đi với vận tốc là 20 km/h. 1/3 đoạn đường còn lại người đó đi với vận tốc là 30 km/h. Hỏi người đó phải đi đoạn đường còn lại với vận tốc tối thiểu bao nhiêu để kịp tàu? * 30 km/h

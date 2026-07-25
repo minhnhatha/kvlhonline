@@ -1,0 +1,81 @@
+body{
+    overflow-x: hidden;
+}
+.line_board{
+    border-color: black;
+    border-radius: 2px;
+    border-style: groove;
+}
+
+.sidebar {
+    font-size: 20px;
+    z-index: 1001;
+    height: 100vh;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to right, #174963, #0980A6);
+    /* padding-top: 20px; */
+    overflow-x: hidden;
+    transition: width 0.3s ease;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar .alist {
+  display: block;
+  color: white;
+  padding: 12px;
+  text-decoration: none;
+}
+
+/* .sidebar .alist_text {
+    font-size: 12px;
+    display: block;
+    color: white;
+    padding: 12px;
+    text-decoration: none;
+} */
+
+.sidebar .alist:hover {
+  color: black;
+  background-color: #20CECB;
+  cursor: pointer;
+}
+.sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sidebar .alist_first {
+  display: block;
+  color: orange;
+  padding: 12px;
+  text-decoration: none;
+}
+
+/* .sidebar .alist_text {
+    font-size: 12px;
+    display: block;
+    color: white;
+    padding: 12px;
+    text-decoration: none;
+} */
+
+.sidebar .alist_first:hover {
+  color: green;
+  background: linear-gradient(to right, lime, yellow);
+  cursor: pointer;
+}
+
+.custom_checkbox{
+  height: 20px;
+  width: 20px;
+}

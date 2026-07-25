@@ -1,0 +1,3 @@
+Tất cả những file cần thiết phải cho vào cùng 1 thư mục
+Trang đề thi phải là tệp Excel và PHẢI CÓ TÊN LÀ "kvlh_test.xlsx"
+Phần thi về đích tạm thời chưa dùng được phần media cho đáp án, chúng tôi sẽ cố gắng thêm vào trong các phiên bản sau

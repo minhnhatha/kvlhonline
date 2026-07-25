@@ -1,0 +1,7 @@
+Số nhiễm sắc thể kép trong 1 tế bào sinh giao tử bình thường của ruồi giấm tại kì giữa giảm phân II là bao nhiêu? * 4
+Một nhóm có 19 người đi tham quan một trung tâm khoa học. Giá vé cho người lớn là 30 nghìn đồng còn trẻ em là 15 nghìn đồng. Cả nhóm phải trả tất cả 420 nghìn đồng. Hỏi trong nhóm có bao nhiêu trẻ em? * 10
+Số tâm động trong 1 tế bào sinh giao tử bình thường của người tại kì đầu giảm phân I là bao nhiêu? * 46
+Một cửa hàng có 100 kg gạo nếp và gạo tẻ. Biết nếu bán đi 15 kg gạo tẻ và 25 kg gạo nếp thì số gạo tẻ gấp 5 lần số gạo nếp, tính số gạo mỗi loại. * Gạo tẻ: 65 kg / Gạo nếp: 35 kg
+Số nhiễm sắc thể kép trong 1 tế bào sinh giao tử bình thường của người tại kì cuối giảm phân II là bao nhiêu? * 0
+Số chromatid trong 1 tế bào bình thường ở cây đậu Hà Lan tại kì giữa nguyên phân là bao nhiêu? * 28
+Một nhóm có 30 người, trong đó có 8 người tên Linh. Chọn ngẫu nhiên một nhóm 5 người. Hỏi có bao nhiêu cách chọn sao cho trong nhóm có đúng một người tên Linh? * 58520
