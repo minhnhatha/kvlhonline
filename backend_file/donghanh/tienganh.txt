@@ -1,2 +1,10 @@
 Where is the city of Madrid located? * Spain
 What tool do we use to draw a circle? * Compass
+Who painted the Mona Lisa? * Leonardo da Vinci
+How many seconds are there in one minute? *	60
+How many arms does an octopus have? *	8
+What is the chemical symbol for gold? *	AU
+How many sides does a triangle have? * 3
+How many colors are there in a rainbow? * 7
+What is the main ingredient of bread? * Flour
+What is the human body's largest organ? * Skin
