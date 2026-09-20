@@ -1378,13 +1378,13 @@ io.on('connection', socket => {
                     }
                     room[rm]['questions'][type_question[i]].pop_front();
                     for (let j of room[rm]["list_of_players"]){
-                        io.to(j).emit('next_question_vedich', {
+                        io.to(j).emit('next_question_vedich_ngoisao', {
                             next_question: task["noiDungA"],
                             next_media: (task["mediaURL"] && room[rm]["options"].show_video_on_player)? task["mediaURL"] + "?token=" + io.sockets.sockets.get(j).token : "",
                             next_extension: task["mediaURL"]? getFileExtension(task["mediaURL"]) : "",
                         });
                     }
-                    socket.emit('next_question_vedich', {
+                    socket.emit('next_question_vedich_ngoisao', {
                         next_question: task["noiDungA"],
                         next_answer: task["noiDungB"],
                         next_media: task["mediaURL"]? task["mediaURL"] + "?token=" + socket.token : "",
@@ -1461,7 +1461,9 @@ io.on('connection', socket => {
                 if (type_question[i] === room[rm]['state_of_questions_played']){
                     if (room[rm][player_playing_id].star === 1){
                         // console.log(room[rm][room[rm]["playing"]].score);
+                        //console.log("star_wrong", room[rm][player_playing_id].score);
                         room[rm][player_playing_id].score = Math.max(room[rm][player_playing_id].score - score_question[i], 0);
+                        //console.log("star__after_wrong", room[rm][player_playing_id].score);
                         // console.log(room[rm][player_playing_id].score);
                         // console.log(room[rm][player_playing_id].star);
                         // room[rm][data.player_playing].star = 2;
