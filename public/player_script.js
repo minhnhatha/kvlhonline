@@ -85,7 +85,16 @@ socket.on('bonus', () => {
 //--------------------------------- player script ---------------------------------
 
 
+function BellClickThuThach(){
+    socket.emit('bell_clicked_thuthach');
+}
 
+function BellF7ThuThach(e){
+    if (e.key === "F7") {
+        e.preventDefault();
+        socket.emit('bell_clicked_thuthach');
+    }
+}
 
 socket.on('change_mode_thuthach', data => {
     if (audio){
@@ -99,6 +108,7 @@ socket.on('change_mode_thuthach', data => {
     document.getElementsByClassName("gs-score")[0].innerText = "";
     document.getElementById("showtime").innerText = "";
     document.getElementsByClassName("gs-mode")[0].innerText = "Thử thách";
+    document.addEventListener("keydown", BellF7ThuThach);
     document.getElementById("gs-bell").innerHTML = `
         <div id="bell_thuthach" class="btn btn-success" style="padding: 15px; width: 95%; border-radius: 14px;" onclick="BellClickThuThach()">
             Trả lời chủ đề
@@ -254,15 +264,11 @@ socket.on('unshow_player_answer_thuthach', () => {
     document.getElementById("player_list").style.display = "";
 });
 
-function BellClickThuThach(){
-    socket.emit('bell_clicked_thuthach');
-    document.getElementById('bell_thuthach').disabled = true;
-}
-
 socket.on('player_clicked_bell_thuthach', data=>{
     document.getElementById("play-" + data.player_playing).classList.add("activated");
     document.getElementById("play-" + data.player_playing).classList.remove("playing");
     document.getElementById("name-" + data.player_playing).innerText = "" + data.turn_number + " - " + data.player_name;
+    document.getElementById('bell_thuthach').classList.add("disabled");
     if (play_soundtrack){
         let audio_bell = new Audio(root_media + (root_media != "./media/" ? "thuthach_" : "") + "bell" + ".mp3");
         audio_bell.play().catch(err => console.error(err));
@@ -326,6 +332,7 @@ socket.on('change_mode_donghanh', data => {
     document.getElementById("gs-answers").innerHTML = "";
     document.getElementById("gs-bell").innerText = "";
     document.getElementById("gs-text").style.display = "";
+    document.removeEventListener("keydown", BellF7ThuThach);
     document.getElementById("gs-text").innerHTML = `
         <input id="answer_text" disabled type="text" style="width: 95%; padding: 15px; border-radius: 20px; text-align: center;"
         maxlength="30" placeholder="Nhập câu trả lời">
@@ -528,25 +535,38 @@ socket.on('run_vedich', data =>{
     Countdown();
 });
 
+function BellClickVeDich(){
+    socket.emit('bell_clicked_vedich');
+}
+
+function BellF7VeDich(e){
+    if (e.key === "F7") {
+        e.preventDefault();
+        socket.emit('bell_clicked_vedich');
+    }
+}
+
 socket.on('next_player_vedich', data =>{
-    if (data.play_score){
+    document.removeEventListener("keydown", BellF7VeDich);
+    if (data.play_score === 0 || data.play_score){
         document.getElementById("score-" + player_playing).innerText = "(" + data.play_score + ")";
         document.getElementsByClassName("gs-score")[0].innerText = data.play_score;
     }
-    if (data.take_score){
+    if (data.take_score === 0 || data.take_score){
         document.getElementById("score-" + data.take_score[0]).innerText = "(" + data.take_score[1] + ")";
     }
 });
 
+
+
 socket.on('bell_enabled', data=>{
+    document.addEventListener("keydown", BellF7VeDich);
     durability = 5000;
     link_media = root_media + "5_cnt.mp3";
     Countdown();
 });
 
-function BellClickVeDich(){
-    socket.emit('bell_clicked_vedich');
-}
+
 
 socket.on('player_clicked', data=>{
     document.getElementById("play-" + data.player_playing).classList.add("activated");
