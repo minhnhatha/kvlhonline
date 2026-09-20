@@ -220,6 +220,10 @@ function ShowQuestionThuThach(i){
     socket.emit('get_question_thuthach', {question_number: i});
 }
 
+function showAnswerThuThach(){
+    
+}
+
 socket.on('question_thuthach_getted', data =>{
     document.getElementById("run_thuthach").classList.remove("disabled");
     document.getElementById("question-box").innerText = `(${data.cross} ${data.x}) ${data.question}`;
@@ -737,13 +741,11 @@ socket.on('next_player_vedich', data =>{
     // document.getElementById("question-box").innerText = "";
     // document.getElementById("answer-box").innerText = "";
     document.getElementById("gs-star").innerText = "";
-    if (data.play_score){
-        // console.log(data.player_playing, data.play_score);
+    if (data.play_score === 0 || data.play_score){
         document.getElementById("score-" + data.player_playing).innerText = "(" + data.play_score + ")";
         document.getElementsByClassName("gs-score")[0].innerText = data.play_score;
     }
-    if (data.take_score){
-        // console.log(data.take_score[0], data.take_score[1]);
+    if (data.take_score === 0 || data.take_score){
         document.getElementById("score-" + data.take_score[0]).innerText = "(" + data.take_score[1] + ")";
     }
     if (data.player_playing >= data.number_of_players) current_player = 1;
