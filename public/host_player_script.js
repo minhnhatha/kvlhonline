@@ -763,7 +763,7 @@ socket.on('bell_enabled', data =>{
 
 socket.on('player_clicked', data=>{
     type_over = 'blank';
-    let audio_bell = new Audio("./media/bell.mp3");
+    let audio_bell = new Audio(root_media + "bell.mp3");
     audio_bell.play().catch(err => console.error(err));
     document.getElementById("play-" + data.player_playing).classList.add("activated");
     document.getElementById("nut_dung_sai").innerHTML = `
