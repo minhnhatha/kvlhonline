@@ -1,5 +1,5 @@
 let StartTime = 0, player_playing = 1, audio = null, durability = 60000, root_media = "./media/";
-let link_media = "./media/60_cnt.mp3", Tm, play_soundtrack = false, show_video = false;
+let link_media = "./media/60_cnt.mp3", Tm, play_soundtrack = false, show_video = false, olympia_soundtrack = false;
 
 //socket.onAny(
 socket.emit("get_options");
@@ -8,7 +8,10 @@ socket.on('options', data => {
     // Handle the received options
     play_soundtrack = data.play_soundtrack_on_player;
     show_video = data.show_video_on_player;
-    if (data.olympia_soundtrack) root_media = "./olympia_media/";
+    if (data.olympia_soundtrack){
+        root_media = "./olympia_media/";
+        olympia_soundtrack = true;
+    }
     //socket.emit("get_options");
 });
 
@@ -26,6 +29,13 @@ function Play(){
     document.getElementById("showtime").innerText = parseInt(Tm / 1000) + 1;
     if (Tm > 0) requestAnimationFrame(Play);
     else document.getElementById("showtime").innerText = "0";
+}
+
+function AudioPlay(link){
+    if (play_soundtrack){
+        let audio2 = new Audio(link);
+        audio2.play().catch(err => console.error(err));
+    }
 }
 
 socket.on('khoidong', data => {
@@ -83,7 +93,7 @@ socket.on('bonus', () => {
 
 
 //--------------------------------- player script ---------------------------------
-
+let thuthach_answered = false;
 
 function BellClickThuThach(){
     socket.emit('bell_clicked_thuthach');
@@ -149,6 +159,8 @@ socket.on('change_mode_thuthach', data => {
 });
 
 socket.on('question_thuthach_getted', data =>{
+    if (olympia_soundtrack) AudioPlay(root_media + "thuthach_question_show.mp3");
+    else AudioPlay(root_media + "everytype_show.mp3");
     document.getElementById("question-box").innerText = `(${data.cross} ${data.x}) ${data.question}`;
     if (data.play_media !== ''){
         if (data.play_media[data.play_media.length - 1] === '3'){
@@ -183,28 +195,34 @@ socket.on('run_thuthach', data =>{
             let ans = document.getElementById('answer_text').value;
             if (ans.trim()){
                 socket.emit('answer_submitted_thuthach', {answer: ans});
+                thuthach_answered = true;
                 document.getElementById("answer_show").innerText = ans;
                 document.getElementById("player_answer").style.display = "flex";
                 document.getElementById("player_list").style.display = "none";
                 document.getElementById('answer_text').value = "";
+                document.getElementById('answer_text').disabled = true;
             }
         }
     });
     document.getElementById('answer_text').value = "";
-    document.getElementById('answer_text').focus();
+    
     // document.getElementById('answer_text').classList
     document.getElementById('answer_text').disabled = false;
+    document.getElementById('answer_text').focus();
     durability = 15000;
     link_media = (root_media == "./media/" ? root_media + "15_cnt.mp3" : root_media + "15_thuthach_cnt.mp3");
     Countdown();
 });
 
 socket.on('time_up_thuthach', data =>{
-    document.getElementById('answer_text').value = "";
     document.getElementById('answer_text').disabled = true;
+    if (!thuthach_answered) socket.emit('answer_submitted_thuthach', {answer: document.getElementById('answer_text').value});
+    thuthach_answered = false;
 });
 
 socket.on('show_player_answer_thuthach', data =>{
+    if (olympia_soundtrack) AudioPlay(root_media + "thuthach_answer_show.mp3");
+    else AudioPlay(root_media + "everytype_show.mp3");
     document.getElementById("gs-crossword").style.display = "none";
     document.getElementById("gs-text").style.display = "none";
     let k = `
@@ -232,16 +250,24 @@ socket.on('show_player_answer_thuthach', data =>{
 socket.on('check_answer_thuthach', data =>{
     let name_arr = document.getElementsByClassName("name-badge");
     let status_arr = document.getElementsByClassName("status-bar");
+    let all_wrong = true;
     for (let i = 0; i<name_arr.length; ++i){
         if (!data.answer_state[i]){
             name_arr[i].style.color = "#81A0A9";
             status_arr[i].style.color = "#697C9E";
         }
         else{
+            all_wrong = false;
             status_arr[i].innerHTML += `<div class="status-segment-3">${data.answer_state[i]}</div>`;
         }
         document.getElementById("score-" + (i + 1)).innerText = "(" + data.new_score[i] + ")";
     }
+    if (olympia_soundtrack) {
+        if (!all_wrong) AudioPlay(root_media + "thuthach_correct.mp3");
+        else AudioPlay(root_media + "thuthach_wrong.mp3");
+    }
+    else AudioPlay(root_media + "everytype_show.mp3");
+    
     if (data.answer === ""){
         for (let i = 0; i<data.cross_length; i++){
             document.getElementById("cw-" + data.question_number + i).style.background = "#595959";
@@ -312,9 +338,17 @@ socket.on('thuthach_correct_answer', data =>{
     document.getElementById("gs-text").style.display = "none";
 });
 
+socket.on('show_answer_thuthach', data =>{
+    for (let i = 0; i<data.cross_length; i++){
+        let ch = document.getElementById("cw-" + data.question_number + i);
+        ch.style.background = "#026FC4";
+        ch.innerText = data.answer[i];
+    }
+});
+
 
 //---------------------------------player script ---------------------------------
-
+let donghanh_answered = false;
 
 socket.on('change_mode_donghanh', data => {
     if (audio){
@@ -360,24 +394,32 @@ socket.on('run_donghanh', data =>{
                 if (ans.trim()){
                     // console.log(ans);
                     socket.emit('answer_submitted_donghanh', {answer: ans});
+                    donghanh_answered = true;
                     document.getElementById("answer_show").innerText = ans;
                     document.getElementById("player_answer").style.display = "flex";
                     document.getElementById('answer_text').value = "";
+                    document.getElementById('answer_text').disabled = true;
                 }
             }
         });
         document.getElementById('answer_text').value = "";
-        document.getElementById('answer_text').focus();
         // document.getElementById('answer_text').classList
         document.getElementById('answer_text').disabled = false;
+        document.getElementById('answer_text').focus();
     }
     durability = 10000;
     link_media = root_media + "10_cnt.mp3";
     Countdown();
 });
 
-
 socket.on("time_up_donghanh", data =>{
+    document.getElementById('answer_text').disabled = true;
+    if (!donghanh_answered) socket.emit('answer_submitted_donghanh', {answer: document.getElementById('answer_text').value});
+    donghanh_answered = false;
+});
+
+socket.on("show_answer_donghanh", data =>{
+    AudioPlay(root_media + "donghanh_show.mp3");
     document.getElementById('answer_text').value = "";
     document.getElementById('answer_text').disabled = true;
     document.getElementById("answer_show").innerText = "";
