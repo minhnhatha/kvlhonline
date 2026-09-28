@@ -816,7 +816,11 @@ io.on('connection', socket => {
             // let { player_playing, question_number } = data;
             room[rm][room[rm]["list_of_players"][room[rm]["playing"] - 1]].combo = 0;
             room[rm]["state_of_questions_played"] += 1;
-
+            for (let i of room[rm]["list_of_players"]){
+                io.to(i).emit('skip_answer', {
+                    question_number: room[rm]["state_of_questions_played"]
+                });//players
+            }
             if (room[rm]["state_of_questions_played"] < 10) {
                 for (let i of room[rm]["list_of_players"]){
                     io.to(i).emit('next_question', {
