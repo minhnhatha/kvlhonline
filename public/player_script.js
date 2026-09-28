@@ -56,6 +56,7 @@ socket.on('next_question', data => {
     document.getElementById("question-box").innerText = data.next_question;
 });
 socket.on('correct_answer', data => {
+    AudioPlay(root_media + "khoidong_correct.mp3");
     document.getElementById("score-" + data.player_playing).innerText = "(" + data.play_score + ")";
     document.getElementsByClassName("gs-score")[0].innerText = data.play_score;
     document.getElementById("qu-" + data.question_number).style.background = "#9EB9DA";
@@ -66,6 +67,7 @@ socket.on('correct_answer', data => {
     `;
 });
 socket.on('wrong_answer', data => {
+    AudioPlay(root_media + "khoidong_wrong.mp3");
     document.getElementById("qu-" + data.question_number).style.background = "#DA9AA8";
     document.getElementById("qu-" + data.question_number).innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#B6071D" class="bi bi-x-lg" viewBox="0 0 16 16">
@@ -73,6 +75,11 @@ socket.on('wrong_answer', data => {
         </svg>
     `;
 });
+
+socket.on('skip_answer', data => {
+    AudioPlay(root_media + "khoidong_skip.mp3");
+});
+
 
 socket.on('game_over', () => {
     if (Tm > 3 && audio){
@@ -82,7 +89,8 @@ socket.on('game_over', () => {
         audio = null;
     }
     for (let i = 1; i<=10; i++){
-        document.getElementById("qu-" + i).style.background = "white";
+        document.getElementById("qu-" + i).style.background = "#FFFFFF";
+        document.getElementById("qu-" + i).innerHTML = "";
     }
     document.getElementById("question-box").innerText = "";
     document.getElementById("showtime").innerText = "0";
