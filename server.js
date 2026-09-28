@@ -1034,6 +1034,26 @@ io.on('connection', socket => {
                 socket.emit('unshow_player_answer_thuthach_host', {ans: room[rm]['questions'][0]}); //Nếu có người bấm chuông chủ đề thì mới gửi về host
         });
 
+        socket.on("show_answer_thuthach", data => {
+            let x = "";
+            if (data.cross_index === 0) x = room[rm]['questions'][data.cross_index].replace(/\s+/g, "").toUpperCase();
+            else x = room[rm]['questions'][data.cross_index]["noiDungB"].replace(/\s+/g, "").toUpperCase();
+            let answer = removeVietnameseTones("" + x);
+
+            for (let i of room[rm]["list_of_players"]){
+                io.to(i).emit('show_answer_thuthach', {
+                    answer: answer,
+                    cross_length: x.length,
+                    question_number: data.cross_index,
+                });
+            }
+            socket.emit('show_answer_thuthach_host', {
+                answer: answer,
+                cross_length: x.length,
+                question_number: data.cross_index,
+            });
+        });
+
         socket.on('thuthach_correct_answer', data =>{ //showchude, congdiem, endgame, disable bamgio, 
             if (room[rm]['enable_bell']['status'].queue_size()){
                 let k = 0,
@@ -1115,7 +1135,7 @@ io.on('connection', socket => {
         socket.on("change_mode_donghanh", data =>{
             // let k = 0;
             // for (let i of room[rm]["list_of_players"]) k += 1;
-            room[rm]['answers'] = "(Không có câu trả lời)";
+            room[rm]['answers'] = "(Chưa có câu trả lời)";
             for (let i of room[rm]["list_of_players"]){
                 room[rm][i].combo = 0;
                 io.to(i).emit('change_mode_donghanh', {number_of_players: room[rm]["list_of_players"].length});//players
@@ -1189,19 +1209,26 @@ io.on('connection', socket => {
 
 
         socket.on('answer_timed_donghanh', data => {
-            if (data.time >= 10000 || data.time <= 0) room[rm]['answers'] = "(Không có câu trả lời)";
+            if (data.time >= 10000 || data.time <= 0) room[rm]['answers'] = "(Chưa có câu trả lời)";
             // console.log(room[rm]['answers']);
             // console.log(room[rm]["answers"]);
         });
 
         socket.on('time_up_donghanh', data => {
             // console.log(room[rm]["answers"]);
+            io.to(room[rm]['list_of_players'][room[rm]["playing"] - 1]).emit("time_up_donghanh", {});
+            //console.log(room[rm]['list_of_players'][room[rm]["playing"] - 1]);
+            socket.emit("time_up_donghanh_host", {});
+        });
+
+        socket.on('show_answer_donghanh', data => {
+            // console.log(room[rm]["answers"]);
             for (let i of room[rm]["list_of_players"]){
-                io.to(i).emit("time_up_donghanh", {
-                    player_answer: room[rm]["answers"]
+                io.to(i).emit("show_answer_donghanh", {
+                    player_answer: room[rm]["answers"],
                 });
             }
-            socket.emit("time_up_donghanh_host", {
+            socket.emit("show_answer_donghanh_host", {
                 player_answer: room[rm]["answers"],
                 actual_answer: room[rm]["questions"][room[rm]['state_of_questions_played']]["noiDungB"]
                     //                 room[rm]['questions'] = finalDataArray;
