@@ -1,12 +1,15 @@
 let StartTime = 0, current_player = 1, current_question = 1, player_list = [], audio = null, durability = 60000;
-let link_media = "./media/60_cnt.mp3", type_over = 'time_up', Tm, root_media = "./media/";
+let link_media = "./media/60_cnt.mp3", type_over = 'time_up', Tm, root_media = "./media/", olympia_soundtrack = false;
 
 socket.emit("get_options");
 
 socket.on('options', data => {
     // Handle the received options
     console.log("?" + data.olympia_soundtrack);
-    if (data.olympia_soundtrack) root_media = "./olympia_media/";
+    if (data.olympia_soundtrack) {
+        root_media = "./olympia_media/";
+        olympia_soundtrack = true;
+    }
     //socket.emit("get_options");
 });
 //-----------------------------Khởi động & chung------------------------------
@@ -89,6 +92,13 @@ function Play(){
     }
 }
 
+function AudioPlay(link){
+    let audio2 = new Audio(link);
+    audio2.play().catch(err => console.error(err));
+}
+
+
+
 socket.on('answer_correct', data => {
     document.getElementById("score-" + data.player_playing).innerText = "(" + data.play_score + ")";
     document.getElementsByClassName("gs-score")[0].innerText = data.play_score;
@@ -96,9 +106,17 @@ socket.on('answer_correct', data => {
 
 function Correct(){
     let play_circle = "qu-" + current_question;
-    document.getElementById(play_circle).style.background = "lime";
+    document.getElementById(play_circle).style.background = "#9EB9DA";
+    document.getElementById(play_circle).innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#2769A1" class="bi bi-check-lg" viewBox="0 0 16 16">
+            <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+        </svg>
+    `;
+    // #2769A1; #DA9AA8, #B6071D
     current_question += 1;
+    AudioPlay(root_media + "khoidong_correct.mp3");
     socket.emit('correct_answer');
+    
     // {
     //     player_playing: player_list[current_player - 1][1],
     //     question_number: current_question - 2
@@ -106,8 +124,14 @@ function Correct(){
 }
 function Wrong(){
     let play_circle = "qu-" + current_question;
-    document.getElementById(play_circle).style.background = "red";
+    document.getElementById(play_circle).style.background = "#DA9AA8";
+    document.getElementById(play_circle).innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#B6071D" class="bi bi-x-lg" viewBox="0 0 16 16">
+            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+        </svg>
+    `;
     current_question += 1;
+    AudioPlay(root_media + "khoidong_wrong.mp3");
     socket.emit('wrong_answer');
     //  {
     //     player_playing: player_list[current_player - 1][1],
@@ -117,6 +141,7 @@ function Wrong(){
 
 function Skip(){
     current_question += 1;
+    AudioPlay(root_media + "khoidong_skip.mp3");
     socket.emit('skip_answer');
 }
 socket.on('next_question', data => {
@@ -137,7 +162,8 @@ socket.on('game_over', () => {
     }
     current_question = 1;
     for (let i = 1; i<=10; i++){
-        document.getElementById("qu-" + i).style.background = "white";
+        document.getElementById("qu-" + i).style.background = "#FFFFFF";
+        document.getElementById("qu-" + i).innerHTML = "";
     }
     document.getElementById("question-box").innerText = "";
     document.getElementById("answer-box").innerText = "";
@@ -217,12 +243,22 @@ socket.on('thuthach_standby', data =>{
     document.getElementById("gs-crossword").innerHTML = k;
 });
 function ShowQuestionThuThach(i){
+    if (olympia_soundtrack) AudioPlay(root_media + "thuthach_question_show.mp3");
+    else AudioPlay(root_media + "everytype_show.mp3");
     socket.emit('get_question_thuthach', {question_number: i});
 }
 
-function showAnswerThuThach(){
-    
+function ShowAnswerThuThach(i){
+    socket.emit('show_answer_thuthach', {cross_index: i});
 }
+
+socket.on('show_answer_thuthach_host', data =>{
+    for (let i = 0; i<data.cross_length; i++){
+        let ch = document.getElementById("cw-" + data.question_number + i);
+        ch.style.background = "#026FC4";
+        ch.innerText = data.answer[i];
+    }
+});
 
 socket.on('question_thuthach_getted', data =>{
     document.getElementById("run_thuthach").classList.remove("disabled");
@@ -267,7 +303,7 @@ function RunThuThach(){
 }
 
 socket.on('answer_submitted_thuthach', data =>{
-    socket.emit('answer_timed_thuthach', {id: data.id, time: Date.now() - StartTime - 2});
+    socket.emit('answer_timed_thuthach', {id: data.id, time: Math.min(14999, Date.now() - StartTime - 2)});
 });
 
 socket.on('time_up_thuthach_host', data =>{
@@ -275,6 +311,8 @@ socket.on('time_up_thuthach_host', data =>{
 });
 
 function ShowPlayerAnswerThuThach(){
+    if (olympia_soundtrack) AudioPlay(root_media + "thuthach_answer_show.mp3");
+    else AudioPlay(root_media + "everytype_show.mp3");
     socket.emit('show_player_answer_thuthach');
 }
 
@@ -337,16 +375,25 @@ socket.on('show_player_answer_thuthach_host', data =>{
 socket.on('check_answer_thuthach_host', data =>{
     let name_arr = document.getElementsByClassName("name-badge");
     let status_arr = document.getElementsByClassName("status-bar");
+    let all_wrong = true;
     for (let i = 0; i<name_arr.length; ++i){
         if (!data.answer_state[i]){
             name_arr[i].style.color = "#81A0A9";
             status_arr[i].style.color = "#697C9E";
         }
         else{
+            all_wrong = false;
             status_arr[i].innerHTML += `<div class="status-segment-3">${data.answer_state[i]}</div>`;
         }
         document.getElementById("score-" + (i + 1)).innerText = "(" + data.new_score[i] + ")";
     }
+    
+    if (olympia_soundtrack) {
+        if (!all_wrong) AudioPlay(root_media + "thuthach_correct.mp3");
+        else AudioPlay(root_media + "thuthach_wrong.mp3");
+    }
+    else AudioPlay(root_media + "everytype_show.mp3");
+
     if (data.answer === ""){
         for (let i = 0; i<data.cross_length; i++){
             document.getElementById("cw-" + data.question_number + i).style.background = "#595959";
@@ -423,9 +470,10 @@ function ChangeModeDongHanh(){
     document.getElementById("gs-answers").innerHTML = "";
     document.getElementById("combine_buttons").innerHTML=`
         <div id="donghanh_buttons" style="display: flex; gap: 10px;">
-            <div id = "nut_dungsai_donghanh" style="display: flex;">
+            <div id="nut_dungsai_donghanh" style="display: flex;">
                 <button id="cross_donghanh" class="btn btn-danger disabled" onclick="DongHanhWrong()" style="display: flex;">Sai</button>
                 <button id="tick_donghanh" class="btn btn-success disabled" onclick="DongHanhCorrect()" style="display: flex;">Đúng</button>
+                <button id="check_donghanh" class="btn btn-primary disabled" onclick="DongHanhCheck()" style="display: none;">Hiện đáp án</button>
             </div>
             <button id="run_donghanh" class="btn btn-secondary disabled" onclick="RunDongHanh()" style="display: flex; margin-left: 12vw;">Bấm giờ</button>
             <button id="start_donghanh" class="btn btn-info" onclick="DongHanhStart()" style="display: flex;">Bắt đầu phần thi</button>
@@ -471,19 +519,36 @@ function RunDongHanh(){
 }
 
 socket.on('answer_submitted_donghanh', data =>{
-    socket.emit('answer_timed_donghanh', {time: Date.now() - StartTime - 2});
+    socket.emit('answer_timed_donghanh', {time: Math.min(9999, Date.now() - StartTime - 2)});
+});
+
+socket.on("time_up_donghanh_host", data => {
+    document.getElementById("cross_donghanh").style.display = "none";
+    document.getElementById("tick_donghanh").style.display = "none";
+    document.getElementById("check_donghanh").classList.remove("disabled");
+    document.getElementById("check_donghanh").style.display = "flex";
 });
 
 
-socket.on("time_up_donghanh_host", data => {
+socket.on("show_answer_donghanh_host", data => {
+    AudioPlay(root_media + "donghanh_show.mp3");
     document.getElementById("question-box").style.textAlign = "center";
     document.getElementById("question-box").innerHTML = `
         <p>TRẢ LỜI:</p><span>${data.player_answer}</span>
     `;
     document.getElementById("answer-box").innerText = data.actual_answer;
+    document.getElementById("check_donghanh").classList.add("disabled");
+    document.getElementById("check_donghanh").style.display = "none";
+    document.getElementById("cross_donghanh").style.display = "flex";
+    document.getElementById("tick_donghanh").style.display = "flex";
     document.getElementById("cross_donghanh").classList.remove("disabled");
     document.getElementById("tick_donghanh").classList.remove("disabled");
-})
+    
+});
+
+function DongHanhCheck(){
+    socket.emit("show_answer_donghanh");
+}
 
 function DongHanhCorrect(){
     socket.emit("correct_answer_donghanh");
@@ -524,6 +589,7 @@ socket.on('next_question_donghanh_host', data =>{
     document.getElementById("nut_dungsai_donghanh").innerHTML = `
         <button id="cross_donghanh" class="btn btn-danger disabled" onclick="DongHanhWrong()" style="display: flex;">Sai</button>
         <button id="tick_donghanh" class="btn btn-success disabled" onclick="DongHanhCorrect()" style="display: flex;">Đúng</button>
+        <button id="check_donghanh" class="btn btn-primary disabled" onclick="DongHanhCheck()" style="display: none;">Hiện đáp án</button>
     `;
 });
 
