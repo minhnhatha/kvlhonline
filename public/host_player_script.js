@@ -180,6 +180,7 @@ socket.on('bonus', () => {
 
 //-----------------------------Thử thách------------------------------
 
+let thuthach_playing_state = false;
 
 function ChangeModeThuThach(){
     if (audio){
@@ -245,6 +246,7 @@ socket.on('thuthach_standby', data =>{
 function ShowQuestionThuThach(i){
     if (olympia_soundtrack) AudioPlay(root_media + "thuthach_question_show.mp3");
     else AudioPlay(root_media + "everytype_show.mp3");
+    thuthach_playing_state = true;
     socket.emit('get_question_thuthach', {question_number: i});
 }
 
@@ -327,11 +329,12 @@ function UnshowPlayerAnswerThuThach(){
     document.getElementById("show_thuthach").onclick = ShowPlayerAnswerThuThach;
     document.getElementById("show_thuthach").classList.add("disabled");
     document.getElementById("answer-box").style.display = "none";
+    thuthach_playing_state = false;
     socket.emit('unshow_player_answer_thuthach');
 }
 
 socket.on('unshow_player_answer_thuthach_host', data =>{
-    document.getElementById("question-box").innerHTML = `<span style="color:yellow;">Đáp án chủ đề:${data.ans}</span>`;
+    document.getElementById("question-box").innerHTML = `<span style="color:yellow;">Đáp án chủ đề: ${data.ans}</span>`;
 });
 
 
@@ -414,6 +417,9 @@ socket.on('player_clicked_bell_thuthach', data=>{
     document.getElementById("name-" + data.player_playing).innerText = "" + data.turn_number + " - " + data.player_name;
     document.getElementById("tick_thuthach").classList.remove("disabled");
     document.getElementById("cross_thuthach").classList.remove("disabled");
+    if (!thuthach_playing_state){
+        document.getElementById("question-box").innerHTML = `<span style="color: #FFFF00;">Đáp án chủ đề: ${data.ans}</span>`;
+    }
     let audio_bell = new Audio(root_media + (root_media != "./media/" ? "thuthach_" : "") + "bell" + ".mp3");
     audio_bell.play().catch(err => console.error(err));
 });
