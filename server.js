@@ -1663,6 +1663,7 @@ io.on('connection', socket => {
             room[players[socket.id]]["enable_bell"]["status"].push_back(socket.id);
             // console.log(room[players[socket.id]]["enable_bell"]);
             io.to(room[players[socket.id]]["host"]).emit('player_clicked_bell_thuthach', {
+                ans: room[players[socket.id]]['questions'][0],
                 turn_number: room[players[socket.id]]["enable_bell"][socket.id][1],
                 player_name: room[players[socket.id]][socket.id].name,
                 player_playing: room[players[socket.id]]["enable_bell"][socket.id][0],
