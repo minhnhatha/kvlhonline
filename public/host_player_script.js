@@ -500,11 +500,19 @@ socket.on("change_mode_donghanh_host", data=>{
 function DongHanhStart(){
     // console.log(current_player);
     if (player_list.length === 0) alert("Cần chọn người tham gia!");
-    else socket.emit('get_question_donghanh', {
-        player_playing: current_player,
-        // player_playing_id: player_list[current_player - 1][1],
-        // number_of_players: player_list.length
-    });
+    
+    else{
+        document.getElementById("nut_dungsai_donghanh").innerHTML = `
+            <button id="cross_donghanh" class="btn btn-danger disabled" onclick="DongHanhWrong()" style="display: flex;">Sai</button>
+            <button id="tick_donghanh" class="btn btn-success disabled" onclick="DongHanhCorrect()" style="display: flex;">Đúng</button>
+            <button id="check_donghanh" class="btn btn-primary disabled" onclick="DongHanhCheck()" style="display: none;">Hiện đáp án</button>
+        `;
+        socket.emit('get_question_donghanh', {
+            player_playing: current_player,
+            // player_playing_id: player_list[current_player - 1][1],
+            // number_of_players: player_list.length
+        });
+    }
 }
 
 socket.on('get_question_donghanh_host', data =>{
