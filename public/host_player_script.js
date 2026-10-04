@@ -502,6 +502,7 @@ function DongHanhStart(){
     if (player_list.length === 0) alert("Cần chọn người tham gia!");
     
     else{
+        document.getElementById("question-box").style.textAlign = "left";
         document.getElementById("nut_dungsai_donghanh").innerHTML = `
             <button id="cross_donghanh" class="btn btn-danger disabled" onclick="DongHanhWrong()" style="display: flex;">Sai</button>
             <button id="tick_donghanh" class="btn btn-success disabled" onclick="DongHanhCorrect()" style="display: flex;">Đúng</button>
