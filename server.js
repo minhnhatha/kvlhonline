@@ -664,7 +664,7 @@ io.on('connection', socket => {
                 // console.log(dataVeDich);x
             }
             let ls = [];
-            for (let i in room[rm]){ //the veryfirst, never delete/replace
+            for (let i in room[rm]){ //the veryfirst to generate room[rm]["list_of_players"], never delete/replace
                 if (players[i]){
                     room[rm]["list_of_players"].push(i);
                     ls.push(room[rm][i].name);
@@ -673,7 +673,7 @@ io.on('connection', socket => {
             console.log(ls);
             for (let i of room[rm]["list_of_players"]) {
                 // console.log(i);
-                io.to(i).emit('game_start', {player_list: ls});//notify players
+                io.to(i).emit('game_start', {image: data.image, player_list: ls});//notify players
             }
         });
         socket.on("get_options", data => {
