@@ -399,6 +399,7 @@ socket.on('get_question_donghanh', data =>{
     for (let i = 0; i < data.number_of_players; i++){
         document.getElementById("play-" + (i + 1)).classList.remove("playing");
     }
+    document.getElementById("question-box").style.textAlign = "left";
     document.getElementById("play-" + data.player_playing).classList.add("playing");
     document.getElementById("question-box").innerText = data.first_question;
     document.getElementsByClassName("gs-score")[0].innerText = data.player_score;
