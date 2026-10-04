@@ -67,7 +67,6 @@ document.getElementById("folderInput").addEventListener("change", async () => {
         body: formData
     });
 });
-
 document.getElementById("submit_game_setting").onclick = () =>{
     let play_soundtrack_input_value = document.getElementById("play_soundtrack_input"),
     show_video_input_value = document.getElementById("show_video_input"),
@@ -115,6 +114,7 @@ function GameStart(){
         fetch('host_player.html')
         .then(response => response.text())
         .then(html => {
+            const gameImageID = Math.floor(Math.random() * 8) + 1;
             const oldScript = document.getElementById('scriptjs');
             const newScript = document.createElement('script');
             newScript.id = 'my-scriptjs';
@@ -123,7 +123,7 @@ function GameStart(){
             document.getElementById("StyleGame").innerHTML = `
                 body{
                     background-repeat: no-repeat;
-                    background-image: url(./image/play_bg.jpg);
+                    background-image: url(./image/play_bg_${gameImageID}.jpg);
                     background-size: 100%;
                     background-color: rgb(3, 12, 27);
                 }
@@ -136,7 +136,7 @@ function GameStart(){
                 cnt += 1;
             }
             document.getElementById("player_list").innerHTML = k;
-            socket.emit('start_game');
+            socket.emit('start_game', {image: gameImageID});
         })
         .catch(err => {
             document.getElementById("TheContainer").innerHTML = err;
