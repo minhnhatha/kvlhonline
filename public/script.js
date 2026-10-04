@@ -32,7 +32,7 @@ socket.on('game_start', data =>{
         document.getElementById("StyleGame").innerHTML = `
             body{
                 background-repeat: no-repeat;
-                background-image: url(./image/play_bg.jpg);
+                background-image: url(./image/play_bg_${data.image}.jpg);
                 background-size: 100%;
                 background-color: rgb(3, 12, 27);
             }
@@ -55,8 +55,3 @@ socket.on('game_start', data =>{
 socket.on('removed_by_host', () => {
     window.location.reload();
 });
-        // socket.emit('joining', {
-        //     code: x,
-        //     play_name: k,
-        //     play_team: player_team,
-        // })
