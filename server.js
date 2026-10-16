@@ -621,24 +621,24 @@ io.on('connection', socket => {
                 room[rm]["own_test"] = [[], [], [], {}];
                 for (let i = 1; i<dataKhoiDong.length; ++i){
                     room[rm]["own_test"][0].push({
-                        noiDungA: (dataKhoiDong[i].__EMPTY !== undefined)? dataKhoiDong[i].__EMPTY : "",
-                        noiDungB: (dataKhoiDong[i].__EMPTY_1 !== undefined)? dataKhoiDong[i].__EMPTY_1 : "",
+                        noiDungA: (dataKhoiDong[i].__EMPTY !== undefined)? "" + dataKhoiDong[i].__EMPTY : "",
+                        noiDungB: (dataKhoiDong[i].__EMPTY_1 !== undefined)? "" + dataKhoiDong[i].__EMPTY_1 : "",
                         mediaURL: "",
                     });
                 }
                 room[rm]["own_test"][1].push(dataThuThach[0].__EMPTY);
                 for (let i = 2; i<6; ++i){
                     room[rm]["own_test"][1].push({
-                        noiDungA: (dataThuThach[i].__EMPTY !== undefined)? dataThuThach[i].__EMPTY : "",
-                        noiDungB: (dataThuThach[i].__EMPTY_3 !== undefined)? dataThuThach[i].__EMPTY_3 : "",
+                        noiDungA: (dataThuThach[i].__EMPTY !== undefined)? "" + dataThuThach[i].__EMPTY : "",
+                        noiDungB: (dataThuThach[i].__EMPTY_3 !== undefined)? "" + dataThuThach[i].__EMPTY_3 : "",
                         mediaURL: (dataThuThach[i].__EMPTY_2 !== undefined)? "/host_media/" + dataThuThach[i].__EMPTY_2 : "", //Lần đầu viết if else kiểu này
                     });
                 }
             
                 for (let i = 1; i<dataDongHanh.length; ++i){
                     room[rm]["own_test"][2].push({
-                        noiDungA: (dataDongHanh[i].__EMPTY !== undefined) ? dataDongHanh[i].__EMPTY : "",
-                        noiDungB: (dataDongHanh[i].__EMPTY_1 !== undefined) ? dataDongHanh[i].__EMPTY_1 : "",
+                        noiDungA: (dataDongHanh[i].__EMPTY !== undefined) ? "" + dataDongHanh[i].__EMPTY : "",
+                        noiDungB: (dataDongHanh[i].__EMPTY_1 !== undefined) ? "" + dataDongHanh[i].__EMPTY_1 : "",
                         mediaURL: "",
                     });
                 }
@@ -649,8 +649,8 @@ io.on('connection', socket => {
                 for (let i = 1; i<dataVeDich.length; ++i){
                     if (dataVeDich[i].__EMPTY) k += 1;
                     room[rm]["own_test"][3][type_question[k]].push_back({
-                        noiDungA: (dataVeDich[i].__EMPTY_1 !== undefined) ? dataVeDich[i].__EMPTY_1 : "",
-                        noiDungB: (dataVeDich[i].__EMPTY_3 !== undefined) ? dataVeDich[i].__EMPTY_3 : "",
+                        noiDungA: (dataVeDich[i].__EMPTY_1 !== undefined) ? "" + dataVeDich[i].__EMPTY_1 : "",
+                        noiDungB: (dataVeDich[i].__EMPTY_3 !== undefined) ? "" + dataVeDich[i].__EMPTY_3 : "",
                         mediaURL: (dataVeDich[i].__EMPTY_2 !== undefined) ? "/host_media/" + dataVeDich[i].__EMPTY_2 : "",
                     });
                 }
