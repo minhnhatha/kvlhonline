@@ -2,11 +2,13 @@ const socket = io();
 function JoinTeam(){
     let k = document.getElementById("name_inp").value;
     let x = document.getElementById("code_inp").value;
+    let is_audience = document.getElementById("audience_inp").checked;
+    console.log(is_audience);
     if (!x.length) alert("Bạn chưa điền mã phòng!");
     else if (x.length !== 6) alert("Mã phòng phải có 6 chữ số!");
     // else if (!hosts[x]) alert("Mã phòng không hợp lệ!");
     else if (k.replace(/\s+/g, '') === "") alert("Bạn chưa điền tên!");
-    else socket.emit('player_joining', {code: x, play_name: k});
+    else socket.emit('player_joining', {code: x, play_name: k, is_audience: is_audience});
 
 }
 socket.on('player_joined', data => {
@@ -55,3 +57,8 @@ socket.on('game_start', data =>{
 socket.on('removed_by_host', () => {
     window.location.reload();
 });
+        // socket.emit('joining', {
+        //     code: x,
+        //     play_name: k,
+        //     play_team: player_team,
+        // })
