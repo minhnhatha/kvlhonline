@@ -6,13 +6,20 @@ socket.emit("get_options");
 
 socket.on('options', data => {
     // Handle the received options
-    play_soundtrack = data.play_soundtrack_on_player;
-    show_video = data.show_video_on_player;
+    if (data.is_audience){
+        play_soundtrack = true;
+        show_video = true;
+        console.log(play_soundtrack, show_video)
+    }
+    else{
+        play_soundtrack = data.play_soundtrack_on_player;
+        show_video = data.show_video_on_player;
+        //socket.emit("get_options");
+    }
     if (data.olympia_soundtrack){
         root_media = "./olympia_media/";
         olympia_soundtrack = true;
     }
-    //socket.emit("get_options");
 });
 
 function Countdown(){
@@ -399,7 +406,6 @@ socket.on('get_question_donghanh', data =>{
     for (let i = 0; i < data.number_of_players; i++){
         document.getElementById("play-" + (i + 1)).classList.remove("playing");
     }
-    document.getElementById("question-box").style.textAlign = "left";
     document.getElementById("play-" + data.player_playing).classList.add("playing");
     document.getElementById("question-box").innerText = data.first_question;
     document.getElementsByClassName("gs-score")[0].innerText = data.player_score;
