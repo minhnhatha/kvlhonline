@@ -3,6 +3,7 @@ const room_players = {};
 socket.on('host-registered', data => {
     document.getElementById('show_code').innerText = `Mã phòng: ${data.room_code}`;
     document.getElementById("play_soundtrack_input").checked = data.options.play_soundtrack_on_player;
+    document.getElementById("play_soundtrack_host_input").checked = data.options.play_soundtrack_on_host;
     document.getElementById("show_video_input").checked = data.options.show_video_on_player;
     document.getElementById("olympia_soundtrack_input").checked = data.options.olympia_soundtrack;
 });
@@ -69,11 +70,13 @@ document.getElementById("folderInput").addEventListener("change", async () => {
 });
 document.getElementById("submit_game_setting").onclick = () =>{
     let play_soundtrack_input_value = document.getElementById("play_soundtrack_input"),
+    play_soundtrack_host_input_value = document.getElementById("play_soundtrack_host_input"),
     show_video_input_value = document.getElementById("show_video_input"),
     olympia_soundtrack_input_value = document.getElementById("olympia_soundtrack_input");
     console.log(play_soundtrack_input_value.checked, show_video_input_value.checked, olympia_soundtrack_input_value.checked);
     socket.emit('setting_change', {
         play_soundtrack_input_value: play_soundtrack_input_value.checked,
+        play_soundtrack_host_input_value: play_soundtrack_host_input_value.checked,
         show_video_input_value: show_video_input_value.checked,
         olympia_soundtrack_input_value: olympia_soundtrack_input_value.checked,
     });
