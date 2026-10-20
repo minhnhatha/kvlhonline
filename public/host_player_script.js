@@ -1,11 +1,13 @@
 let StartTime = 0, current_player = 1, current_question = 1, player_list = [], audio = null, durability = 60000;
-let link_media = "./media/60_cnt.mp3", type_over = 'time_up', Tm, root_media = "./media/", olympia_soundtrack = false;
+let link_media = "./media/60_cnt.mp3", type_over = 'time_up', play_soundtrack = true, Tm, root_media = "./media/", olympia_soundtrack = false;
 
 socket.emit("get_options");
 
 socket.on('options', data => {
     // Handle the received options
     console.log("?" + data.olympia_soundtrack);
+    //if data.play_soundtrack_on_host
+    play_soundtrack = data.play_soundtrack_on_host;
     if (data.olympia_soundtrack) {
         root_media = "./olympia_media/";
         olympia_soundtrack = true;
@@ -78,9 +80,12 @@ socket.on('khoidong', data => {
 });
 function Countdown(){
     StartTime = Date.now()
-    audio = new Audio(link_media);
-    audio.play().catch(err => console.error(err));
-    audio.addEventListener('playing', () => {Play();});
+    if (play_soundtrack){
+        audio = new Audio(link_media);
+        audio.play().catch(err => console.error(err));
+        audio.addEventListener('playing', () => {Play();});
+    }
+    else Play();
 }
 function Play(){
     Tm = durability - Date.now() + StartTime;
@@ -93,8 +98,10 @@ function Play(){
 }
 
 function AudioPlay(link){
-    let audio2 = new Audio(link);
-    audio2.play().catch(err => console.error(err));
+    if (play_soundtrack){
+        let audio2 = new Audio(link);
+        audio2.play().catch(err => console.error(err));
+    }
 }
 
 
@@ -173,8 +180,10 @@ socket.on('game_over', () => {
 });
 
 socket.on('bonus', () => {
-    let audio2 = new Audio("./media/bonus.mp3");
-    audio2.play().catch(err => console.error(err));
+    if (play_soundtrack){
+        let audio2 = new Audio("./media/bonus.mp3");
+        audio2.play().catch(err => console.error(err));
+    }
 });
 
 
@@ -420,8 +429,10 @@ socket.on('player_clicked_bell_thuthach', data=>{
     if (!thuthach_playing_state){
         document.getElementById("question-box").innerHTML = `<span style="color: #FFFF00;">Đáp án chủ đề: ${data.ans}</span>`;
     }
-    let audio_bell = new Audio(root_media + (root_media != "./media/" ? "thuthach_" : "") + "bell" + ".mp3");
-    audio_bell.play().catch(err => console.error(err));
+    if (play_soundtrack){
+        let audio_bell = new Audio(root_media + (root_media != "./media/" ? "thuthach_" : "") + "bell" + ".mp3");
+        audio_bell.play().catch(err => console.error(err));
+    }
 });
 
 function ThuThachCorrect(){
@@ -844,8 +855,10 @@ socket.on('bell_enabled', data =>{
 
 socket.on('player_clicked', data=>{
     type_over = 'blank';
-    let audio_bell = new Audio(root_media + "bell.mp3");
-    audio_bell.play().catch(err => console.error(err));
+    if (play_soundtrack){
+        let audio_bell = new Audio(root_media + "bell.mp3");
+        audio_bell.play().catch(err => console.error(err));
+    }
     document.getElementById("play-" + data.player_playing).classList.add("activated");
     document.getElementById("nut_dung_sai").innerHTML = `
         <button id="cross_vedich" class="btn btn-danger" onclick="CuopDiemVeDichWrong()" style="display: flex;">Bấm chuông sai</button>
