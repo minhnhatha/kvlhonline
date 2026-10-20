@@ -32,11 +32,14 @@
                     </div>
                     <div class="modal-body" id="body_2">
                         <p><b>Nhập tên của bạn</b></p>
-                        <input type="input" placeholder="Nhập tên" required maxlength="30" id="name_inp" name="inp" style="width: 100%; border-radius: 10px;">
-                        <br> <br>
+                        <input type="input" placeholder="Nhập tên" required maxlength="30" id="name_inp" name="inp" style="width: 100%; border-radius: 10px;" autocomplete="off">
+                        <br><br>
                         <p><b>Nhập mã phòng</b></p>
-                        <input type="input" placeholder="Nhập mã phòng" required maxlength="6" id="code_inp" name="code" style="width: 100%; border-radius: 10px;">
-                        <br> <br>
+                        <input type="input" placeholder="Nhập mã phòng" required maxlength="6" id="code_inp" name="code" style="width: 100%; border-radius: 10px;" autocomplete="off">
+                        <br><br>
+                        <b>Nếu bạn là khán giả, tick vào đây: </b>
+                        <input type="checkbox" id="audience_inp" name="audience">
+                        <br><br>
                         <b>Nếu bạn là host, click vào </b><a href="./host">link này</a>
                     </div>
                     <div class="modal-footer" id = "sub_join">
