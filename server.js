@@ -576,6 +576,7 @@ io.on('connection', socket => {
         }//create host
         room[rm]["options"] = {
             play_soundtrack_on_player: false,
+            play_soundtrack_on_host: true,
             show_video_on_player: false,
             olympia_soundtrack: false,
         }
@@ -603,6 +604,7 @@ io.on('connection', socket => {
         });
         socket.on('setting_change', data=>{
             room[rm]["options"].play_soundtrack_on_player = data.play_soundtrack_input_value;
+            room[rm]["options"].play_soundtrack_on_host = data.play_soundtrack_host_input_value;
             room[rm]["options"].show_video_on_player = data.show_video_input_value;
             room[rm]["options"].olympia_soundtrack = data.olympia_soundtrack_input_value;
         });
@@ -1625,11 +1627,12 @@ io.on('connection', socket => {
         if (data.code.length === 6 && room[data.code] && room[data.code]["list_of_players"].length === 0) {
             room[data.code][socket.id] = {
                 id: socket.id,
-                name: data.play_name,
+                name: (data.play_name ? data.play_name : "Unknown"),
                 score: 0,
                 combo: 0, //for khoidong, donghanh
                 star: 0, //for vedich
                 playable: true, //for thuthach
+                is_audience: (data.is_audience ? true : false), //check if is audience
             };
             players[socket.id] = data.code;
             io.to(socket.id).emit('player_joined', { success: true, code: data.code , play_name: data.play_name });//confirm joining
@@ -1641,7 +1644,12 @@ io.on('connection', socket => {
     });
 
     socket.on("get_options", data => {
-        io.to(socket.id).emit('options', room[players[socket.id]]["options"]);
+        io.to(socket.id).emit('options', {
+            play_soundtrack_on_player: room[players[socket.id]]["options"].play_soundtrack_on_player,
+            show_video_on_player: room[players[socket.id]]["options"].show_video_on_player,
+            olympia_soundtrack: room[players[socket.id]]["options"].olympia_soundtrack,
+            is_audience: room[players[socket.id]][socket.id].is_audience,
+        });
     });
 
     socket.on('answer_submitted_thuthach', data =>{
